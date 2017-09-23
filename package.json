@@ -1,0 +1,17 @@
+{
+    "scripts": {
+        "start": "nodemon index.js --exec babel-node"
+    },
+    "dependencies": {
+        "babel-polyfill": "^6.26.0",
+        "babel-preset-env": "^1.6.0",
+        "domutils": "^1.6.2",
+        "htmlparser2": "^3.9.2",
+        "jsonfile": "^4.0.0",
+        "node-fetch": "^1.7.3",
+        "nodemon": "^1.12.1"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.0"
+    }
+}
