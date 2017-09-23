@@ -5,5 +5,5 @@
             "useBuiltIns": true
         }]
     ],
-    "plugins": []
+    "plugins": ["transform-object-rest-spread"]
 }

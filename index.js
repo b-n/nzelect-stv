@@ -9,6 +9,17 @@ class ElectorateScraper {
     domHandler(error, dom) {
         const pageBody = domutils.findOne(elem => elem.type == 'tag' && elem.attribs && elem.attribs.id == 'body', dom);
         const electorateTitleElem = domutils.findOne(elem => elem.type == 'tag' && elem.name == 'h2', pageBody.children);
+
+        const summaryTableElem = domutils.findOne(elem => elem.type == 'tag' && elem.attribs && elem.attribs.id == 'electorate_details_table', pageBody.children);
+        const votesCountedRow = domutils.findOne(elem => elem.type == 'tag' && elem.name == 'tr', summaryTableElem.children);
+        const votesCountedData = domutils.find(elem => elem.type == 'tag' && elem.name == 'div', votesCountedRow.children, true, 999)
+            .reduce((accumulator, item, index) => {
+                const stat = index == 1 ? 'total' : (index == 2 ? 'percent' : '');
+                return stat
+                    ? { ...accumulator, [stat]: item.children[0].data.trim() }
+                    : accumulator;
+            }, {});
+
         const table = domutils.findOne(elem => elem.attribs && elem.attribs.id == 'partyCandidatesResultsTable', pageBody.children);
         const rows = domutils
             .find(elem => elem.type == 'tag' && elem.name  == 'tr', table.children, true, 999)
@@ -21,9 +32,9 @@ class ElectorateScraper {
                     ? accumulator
                     : accumulator.concat({
                         candidateName: dataPoints[0],
-                        candidateVotes: dataPoints[1],
+                        candidateVotes: parseInt(dataPoints[1].replace(/,/g, '')),
                         partyName: dataPoints[2],
-                        partyVotes: dataPoints[3]
+                        partyVotes: parseFloat(dataPoints[3].replace(/,/g, ''))
                     });
             }, []);
 
@@ -51,7 +62,9 @@ class ElectorateScraper {
         this.data = {
             name: electorateTitleElem.children[0].data.split('-')[0].trim(),
             seat,
-            list
+            list,
+            votesCounted: parseInt(votesCountedData.total.replace(/,/g, '')),
+            votesCountedPercent: votesCountedData.percent
         };
     }
 

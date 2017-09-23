@@ -3,6 +3,7 @@
         "start": "nodemon index.js --exec babel-node"
     },
     "dependencies": {
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
         "babel-polyfill": "^6.26.0",
         "babel-preset-env": "^1.6.0",
         "domutils": "^1.6.2",
