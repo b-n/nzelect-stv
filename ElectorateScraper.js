@@ -74,7 +74,7 @@ export default class ElectorateScraper {
 
     scrapeElectorate(index) {
         const electorateNumber = ("0" + this.electorateId).slice(-2);
-        return fetch('http://www.electionresults.govt.nz/electorate-details-' + electorateNumber + '.html')
+        return fetch('http://www.electionresults.govt.nz/electionresults_2017/electorate-details-' + electorateNumber + '.html')
             .then(res => res.text())
             .then(res => {
                 this.parser.parseComplete(res);
